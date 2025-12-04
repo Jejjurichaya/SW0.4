@@ -403,13 +403,6 @@ function analyzeSpeech() {
 
 function handleUserInput(text) {
   console.log('🔍 ANALYZING:', text);
-  if (!symptomsDB) {
-    if (diagnosisDiv) {
-      diagnosisDiv.innerHTML = '<div class="diagnosis">⚠️ Load symptoms.json first</div>';
-      diagnosisDiv.style.display = 'block';
-    }
-    return;
-  }
   
   if (statusDiv) statusDiv.textContent = `🔍 Analyzing: ${text.substring(0,30)}...`;
   const lang = normalizeLang(languageSelect?.value);
@@ -417,14 +410,29 @@ function handleUserInput(text) {
   
   // 🔥 SAVE for SOS
   localStorage.setItem('lastSymptoms', text);
-
+  
   const matches = [];
   
-  for (const symptom of normalizedDB[lang] || normalizedDB.en || []) {
-    for (const keyword of symptom.normKeywords || []) {
-      if (matchKeywordInText(keyword, text)) {
-        matches.push(symptom.raw);
-        break;
+  // 🔥 OFFLINE FALLBACK + DATABASE (KEEPS ALL FEATURES)
+  if (!symptomsDB || Object.keys(normalizedDB).length === 0) {
+    // Keyword fallback (works 100% offline)
+    const fallback = {
+      headache: { name: 'Headache', advice: 'Rest in dark room, hydrate, paracetamol 500mg.', urgency: 'medium' },
+      fever: { name: 'Fever', advice: 'Rest, plenty fluids, paracetamol. Doctor if >3 days.', urgency: 'high' },
+      stomach: { name: 'Stomach Pain', advice: 'ORS, light khichdi, avoid oily/spicy food.', urgency: 'medium' }
+    };
+    const lowerText = text.toLowerCase();
+    if (lowerText.includes('headache') || text.includes('ತಲೆನಾಳ್')) matches.push(fallback.headache);
+    if (lowerText.includes('fever') || text.includes('ಸೂಳೆ')) matches.push(fallback.fever);
+    if (lowerText.includes('stomach') || lowerText.includes('tummy') || text.includes('ಕಡುಪು')) matches.push(fallback.stomach);
+  } else {
+    // Normal DB matching (online)
+    for (const symptom of normalizedDB[lang] || normalizedDB.en || []) {
+      for (const keyword of symptom.normKeywords || []) {
+        if (matchKeywordInText(keyword, text)) {
+          matches.push(symptom.raw);
+          break;
+        }
       }
     }
   }
@@ -438,43 +446,43 @@ function handleUserInput(text) {
         diagnosisDiv.style.display = 'block';
       }
     } else {
-      const firstMatch = matches[0];
-      const urgencyColor = firstMatch.urgency === 'critical' ? '#ef4444' : 
-                            firstMatch.urgency === 'high' ? '#f59e0b' : '#16a34a';
+      // 🔥 SHOW ALL MATCHES (not just first)
+      let html = `<h4 style="color:#16a34a">✅ ${matches.length} Match${matches.length>1?'es':''}</h4>`;
+      let allAdvice = '';
       
-      const symptomKey = symptomToCultureMap[firstMatch.name?.toLowerCase()] || 'stomach';
-      const symptomAdvice = firstMatch.advice || 'No medical advice available';
-      const cultureAdvice = culturalRemedies[culture]?.[symptomKey] || '';
-      
-      const combinedAdvice = cultureAdvice 
-        ? `${symptomAdvice}\n\n🌿 CULTURAL:\n${cultureAdvice}`
-        : symptomAdvice;
+      matches.forEach((symptom) => {
+        const urgencyColor = symptom.urgency === 'critical' ? '#ef4444' : 
+                            symptom.urgency === 'high' ? '#f59e0b' : '#16a34a';
+        const symptomKey = symptomToCultureMap[symptom.name?.toLowerCase()] || 'general';
+        const symptomAdvice = symptom.advice || 'Consult doctor';
+        const cultureAdvice = culturalRemedies[culture]?.[symptomKey] || '';
+        const combined = cultureAdvice ? `${symptomAdvice}\n\n🌿 CULTURAL:\n${cultureAdvice}` : symptomAdvice;
+        
+        html += `
+          <div style="padding:16px;background:white;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);margin:8px 0;">
+            <div style="font-size:18px;font-weight:bold;margin-bottom:8px;">${symptom.name}</div>
+            <div style="background:#f0f9ff;padding:12px;border-radius:8px;border-left:4px solid ${urgencyColor};">
+              ${combined.replace(/\n/g, '<br>')}
+            </div>
+          </div>`;
+        
+        allAdvice += `${symptom.name}: ${combined}\n\n`;
+      });
       
       if (diagnosisDiv) {
-        diagnosisDiv.innerHTML = `
-         
-        <div class="diagnosis" style="padding:16px; background:white; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-            <h4 style="color:${urgencyColor}; margin:0 0 12px 0">✅ ${matches.length} Match${matches.length>1?'es':''}</h4>
-            <div style="font-size:18px; font-weight:bold; margin-bottom:8px;">
-                ${firstMatch.name || firstMatch.symptom || 'Unknown'}
-            </div>
-            <div style="background:#f0f9ff; padding:12px; border-radius:8px; border-left:4px solid ${urgencyColor}; margin:12px 0; white-space: pre-wrap;">
-                <strong>🏥 Medical Advice:</strong><br>${symptomAdvice}<br><br>
-                ${cultureAdvice ? `<strong>🌿 ${culture.toUpperCase()} Remedy:</strong><br>${cultureAdvice}` : ''}
-            </div>
-            ${matches.length > 1 ? `<div style="opacity:0.7; margin-top:12px">+${matches.length-1} more matches</div>` : ''}
-        </div>`;
+        diagnosisDiv.innerHTML = `<div class="diagnosis" style="padding:16px;">${html}</div>`;
         diagnosisDiv.style.display = 'block';
       }
+      
+      // 🔥 SPEAK ALL ADVICE (FIXED scope)
+      console.log('🔊 TRIGGERING TTS:', allAdvice.substring(0, 50));
+      speakAdvice(allAdvice, lang);
     }
-    if (statusDiv) statusDiv.textContent = `✅ Found ${matches.length} matches (${culture})`;
-
-    // 🔥 SPEAK COMBINED ADVICE
-    if (matches.length > 0) {
-      speakAdvice(combinedAdvice, lang);
-    }
-  }, 500);
+    
+    if (statusDiv) statusDiv.textContent = `✅ ${matches.length} matches (${culture}) 🔊 Speaking...`;
+  }, 100);
 }
+
 
 /* ----------------- UI Navigation & Text Input ----------------- */
 navButtons.forEach(btn => btn.addEventListener('click', (ev) => {
