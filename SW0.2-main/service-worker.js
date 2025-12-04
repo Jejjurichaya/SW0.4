@@ -1,4 +1,4 @@
-// service-worker.js
+// service-worker.js - FIXED FOR OFFLINE
 
 const CACHE_NAME = 'swasthya-v2';
 const DATA_CACHE = 'swasthya-data-v2';
@@ -12,8 +12,9 @@ const FILES = [
   '/style.css',
   '/manifest.json',
   '/data/symptoms.json',
-  '/icon/icon-192.png',
-  '/icon/icon-512.png'
+  '/icons/icon-192.png',  // ✅ FIXED path
+  '/icons/icon-512.png',  // ✅ FIXED path
+  '/icons/alarm-beep.mp3'
 ];
 
 // Install SW and cache files safely
@@ -36,24 +37,24 @@ self.addEventListener('activate', event => {
     caches.keys().then(keys =>
       Promise.all(
         keys.filter(key => key !== CACHE_NAME && key !== DATA_CACHE)
-            .map(key => caches.delete(key))
+          .map(key => caches.delete(key))
       )
     ).then(() => self.clients.claim())
   );
 });
 
-// Fetch handler
+// Fetch handler - FIXED FOR OFFLINE
 self.addEventListener('fetch', event => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // Navigation requests (pages)
+  // 🔥 FIXED: CACHE-FIRST for ALL navigation (shows offline.html immediately)
   if (req.mode === 'navigate') {
     event.respondWith(
-      fetch(req)
-        .then(resp => {
-          caches.open(CACHE_NAME).then(c => c.put(req, resp.clone()));
-          return resp;
+      caches.match('/index.html')
+        .then(cachedIndex => {
+          if (cachedIndex) return cachedIndex;
+          return caches.match('/offline.html');
         })
         .catch(() => caches.match('/offline.html'))
     );
@@ -71,7 +72,7 @@ self.addEventListener('fetch', event => {
           })
           .catch(() =>
             cache.match(req.url)
-                 .then(cached => cached || new Response('{}', { headers: { 'Content-Type': 'application/json' } }))
+              .then(cached => cached || new Response('{}', { headers: { 'Content-Type': 'application/json' } }))
           )
       )
     );
@@ -80,14 +81,20 @@ self.addEventListener('fetch', event => {
 
   // Static resources - cache first
   event.respondWith(
-    caches.match(req).then(cached => cached || fetch(req).then(resp => {
-      if (resp && resp.status === 200 && req.method === 'GET') {
-        caches.open(CACHE_NAME).then(c => c.put(req, resp.clone()));
-      }
-      return resp;
-    }).catch(() => {
-      // Fallback for images
-      if (req.destination === 'image') return caches.match('/icon/icon-192.png');
-    }))
+    caches.match(req).then(cached => {
+      if (cached) return cached;
+      
+      return fetch(req).then(resp => {
+        if (resp && resp.status === 200 && req.method === 'GET') {
+          caches.open(CACHE_NAME).then(c => c.put(req, resp.clone()));
+        }
+        return resp;
+      }).catch(() => {
+        // Fallback for images
+        if (req.destination === 'image') return caches.match('/icons/icon-192.png');
+        // Fallback for other resources
+        return caches.match('/offline.html');
+      });
+    })
   );
 });

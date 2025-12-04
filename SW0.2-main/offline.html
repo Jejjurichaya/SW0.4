@@ -13,10 +13,17 @@
 </head>
 <body>
   <div class="card">
-    <img src="/icons/icon-192.png" alt="logo">
-    <h2>You're offline</h2>
-    <p>This app can still provide cached symptom guidance, image analysis, and medicine tracker.</p>
-    <p><strong>Tip:</strong> Open the app while online at least once to cache nearby hospitals and latest data.</p>
+    <img src="/icons/icon-192.png" alt="logo" onerror="this.src='/icons/icon-192.png'">
+    <h2>✅ You're offline</h2>
+    <p><strong>🩺 Swasthya Mitra still works!</strong></p>
+    <ul style="text-align:left;max-width:400px;margin:20px auto;">
+      <li>✅ Cached symptom guidance</li>
+      <li>✅ Medicine tracker & alarms</li>
+      <li>✅ SOS emergency</li>
+      <li>✅ Speech recognition & TTS</li>
+    </ul>
+    <p><em>💡 Tip: Open online once to cache latest data</em></p>
+    <button onclick="window.location.reload()" style="background:#16a34a;color:white;padding:12px 24px;border:none;border-radius:8px;margin-top:16px;">🔄 Retry Online</button>
   </div>
 </body>
 </html>
