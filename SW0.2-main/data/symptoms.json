@@ -1,0 +1,148 @@
+{
+  "en": [
+    {
+      "name": "Headache",
+      "department": "Neurology",
+      "keywords": ["headache", "head pain", "migraine", "dizziness", "throbbing head"],
+      "advice": "Rest in dark room + paracetamol 500mg. Cold compress on forehead. Avoid screens. Consult neurologist if daily or with vomiting.",
+      "urgency": "low"
+    },
+    {
+      "name": "Viral Fever",
+      "department": "General Medicine",
+      "keywords": ["fever", "high temperature", "body heat", "chills", "shivering", "flu"],
+      "advice": "Complete bed rest + ORS + paracetamol. Sponge bath if >102°F. Doctor if >3 days or breathing difficulty.",
+      "urgency": "low"
+    },
+    {
+      "name": "Stomach Pain",
+      "department": "Gastroenterology",
+      "keywords": ["stomach pain", "belly ache", "gas", "bloating", "abdominal pain", "cramping"],
+      "advice": "Ajwain water + light khichdi. Avoid oily/spicy food. ORS if diarrhea. Surgeon if severe continuous pain.",
+      "urgency": "medium"
+    },
+    {
+      "name": "Common Cold",
+      "department": "ENT",
+      "keywords": ["cold", "cough", "running nose", "sneezing", "throat pain", "congestion"],
+      "advice": "Steam inhalation + honey + warm water. Tulsi-ginger tea. ENT specialist if >10 days.",
+      "urgency": "low"
+    },
+    {
+      "name": "Chest Pain",
+      "department": "Cardiology",
+      "keywords": ["chest pain", "pressure in chest", "heart pain", "angina"],
+      "advice": "🚨 EMERGENCY: Chew aspirin + rush to cardiologist. Call ambulance immediately.",
+      "urgency": "critical"
+    },
+    {
+      "name": "Snake Bite",
+      "department": "Emergency Medicine",
+      "keywords": ["snake bite", "snake", "poison", "venom", "bite mark"],
+      "advice": "🚨 IMMEDIATE: Immobilize limb + tie 4 finger loose bandage above bite + RUSH TO HOSPITAL. Anti-venom needed.",
+      "urgency": "critical"
+    },
+    {
+      "name": "Diarrhea",
+      "department": "Gastroenterology",
+      "keywords": ["diarrhea", "loose motion", "loose stools", "stomach upset"],
+      "advice": "ORS every stool + rice water + curd rice. Avoid milk/oily food. Pediatrician if child <5yrs.",
+      "urgency": "medium"
+    },
+    {
+      "name": "Vomiting",
+      "department": "Gastroenterology",
+      "keywords": ["vomiting", "nausea", "throwing up", "retching"],
+      "advice": "Small sips ORS + complete fasting 4hrs. Domperidone if frequent. Gastroenterologist if blood.",
+      "urgency": "medium"
+    },
+    {
+      "name": "Breathlessness",
+      "department": "Pulmonology",
+      "keywords": ["breathlessness", "difficulty breathing", "short breath", "gasping"],
+      "advice": "🚨 EMERGENCY: Sit upright + inhaler if asthmatic + immediate pulmonologist.",
+      "urgency": "critical"
+    },
+    {
+      "name": "Burns",
+      "department": "Plastic Surgery",
+      "keywords": ["burn", "scald", "fire injury", "hot water burn"],
+      "advice": "🚨 IMMEDIATE: Cold water 20mins (NOT ice) + loose clean cloth. NO toothpaste/burnol initially. Plastic surgeon.",
+      "urgency": "high"
+    },
+    {
+      "name": "High Blood Pressure",
+      "department": "Cardiology",
+      "keywords": ["high bp", "high blood pressure", "hypertension"],
+      "advice": "Monitor BP twice daily. Low salt diet. Cardiologist if >160/100 consistently.",
+      "urgency": "medium"
+    },
+    {
+      "name": "Diabetes Symptoms",
+      "department": "Endocrinology",
+      "keywords": ["frequent urination", "excessive thirst", "weight loss", "diabetes"],
+      "advice": "Monitor sugar levels. Diabetic diet. Endocrinologist consultation needed.",
+      "urgency": "medium"
+    }
+  ],
+  "hi": [
+    {
+      "name": "सिर दर्द",
+      "department": "न्यूरोलॉजी",
+      "keywords": ["सिर दर्द", "सिर में दर्द", "माइग्रेन", "चक्कर", "सिर भारी"],
+      "advice": "अंधेरे कमरे में आराम + पैरासिटामोल 500mg। माथे पर ठंडा सेक। स्क्रीन से दूर रहें। रोज हो तो न्यूरोलॉजिस्ट।",
+      "urgency": "low"
+    },
+    {
+      "name": "वायरल बुखार",
+      "department": "जनरल मेडिसिन",
+      "keywords": ["बुखार", "तेज बुखार", "शरीर गर्मी", "कंपकंपी", "जुकाम"],
+      "advice": "पूरा बेड रेस्ट + ORS + पैरासिटामोल। 102°F से ज्यादा स्पंजिंग। 3 दिन से ज्यादा → डॉक्टर।",
+      "urgency": "low"
+    },
+    {
+      "name": "पेट दर्द",
+      "department": "गैस्ट्रोएंटरोलॉजी",
+      "keywords": ["पेट दर्द", "पेट में मरोड़", "गैस", "पेट फूलना"],
+      "advice": "अजवाइन पानी + हल्की खिचड़ी। तेल मसाले न खाएं। दस्त हो तो ORS। तेज दर्द → सर्जन।",
+      "urgency": "medium"
+    },
+    {
+      "name": "खांसी-जुकाम",
+      "department": "ईएनटी",
+      "keywords": ["खांसी", "जुकाम", "नाक बहना", "छींकना", "गला खराब"],
+      "advice": "भाप + शहद + गर्म पानी। तुलसी-अदरक चाय। 10 दिन से ज्यादा → ईएनटी डॉक्टर।",
+      "urgency": "low"
+    },
+    {
+      "name": "सीने में दर्द",
+      "department": "कार्डियोलॉजी",
+      "keywords": ["सीने में दर्द", "सीने में दबाव", "दिल दर्द"],
+      "advice": "🚨 इमरजेंसी: एस्पिरिन चबाएं + तुरंत कार्डियोलॉजिस्ट। एम्बुलेंस बुलाएं।",
+      "urgency": "critical"
+    }
+  ],
+  "kn": [
+    {
+      "name": "ತಲೆ ನೋವು",
+      "department": "ನ್ಯೂರಾಲಜಿ",
+      "keywords": ["ತಲೆ ನೋವು", "ತಲೆಯ ನೋವು", "ಮೈಗ್ರೇನ್", "ತಲೆ ತಿರುಗುವುದು"],
+      "advice": "ಅಂಧಕಾರದ ಕೋಣೆಯಲ್ಲಿ ವಿಶ್ರಾಂತಿ + ಪ್ಯಾರಸಿಟಮಾಲ್ 500mg। ತಲೆಗೆ ತಂಗಾಳಿ ಸೇಕ್। ಸ್ಕ್ರೀನ್ ತಪ್ಪಿಸಿ।",
+      "urgency": "low"
+    },
+    {
+      "name": "ಜ್ವರ",
+      "department": "ಜನರಲ್ ಮೆಡಿಸಿನ್",
+      "keywords": ["ಜ್ವರ", "ಹೆಚ್ಚಿನ ತಾಪಮಾನ", "ದೇಹದ ಬಿಸಿ"],
+      "advice": "ಪೂರ್ಣ ವಿಶ್ರಾಂತಿ + ORS + ಪ್ಯಾರಸಿಟಮಾಲ್। 102°F ಇದ್ದರೆ ಸ್ಪಾಂಜಿಂಗ್। 3 ದಿನಕ್ಕೂ ಹೆಚ್ಚು → ಡಾಕ್ಟರ್。",
+      "urgency": "low"
+    },
+    {
+      "name": "ಹೊಟ್ಟೆ ನೋವು",
+      "department": "ಗ್ಯಾಸ್ಟ್ರೋ ಎಂಟರಾಲಜಿ",
+      "keywords": ["ಹೊಟ್ಟೆ ನೋವು", "ಹೊಟ್ಟೆಯ ಮಣೆ", "ಗ್ಯಾಸ್"],
+      "advice": "ಒಜಿನೆ ನೀರು + ಹಳ್ಳು ಗೋಧಿಯ ಗೋಧಿ। ತೈಲಕ್ಕೆ ಮಸಾಲೆ ತಪ್ಪಿಸಿ। ಬರೆನಾಸಿ → ORS।",
+      "urgency": "medium"
+    }
+  ]
+}
